@@ -1,0 +1,8 @@
+{
+  "name": "xe-project",
+  "private": true,
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "start": "npm start -w api"
+  }
+}

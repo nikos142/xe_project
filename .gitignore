@@ -1,0 +1,9 @@
+node_modules
+*.log
+.env
+
+# SQLite database files
+data/
+*.db
+*.db-shm
+*.db-wal
