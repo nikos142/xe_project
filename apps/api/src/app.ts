@@ -19,7 +19,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(cors({ origin: process.env.CORS_ORIGIN }));
+app.use(cors({ origin: process.env.CORS_ORIGIN ?? 'http://localhost:5173' }));
 app.use(express.json());
 
 //Check if is app is online

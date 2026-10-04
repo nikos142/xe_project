@@ -1,9 +1,9 @@
-type property_type="Rent"|"Buy"| "Exchange"| "Donate"
+type propertyType="Rent"|"Buy"| "Exchange"| "Donation"
 
 export interface Property {
   id: number;
   title: string;
-  type: property_type;
+  type: propertyType;
   price:number;
   placeId: string;
   area:string;
@@ -16,7 +16,7 @@ export interface Property {
 
 export interface PropertyInput {
   title: string;
-  type: string,
+  type: propertyType;
   price:number;
   placeId: string;
   area:string;
@@ -24,10 +24,6 @@ export interface PropertyInput {
   bathrooms:number;
   extra_description: string | null;
 }
-
-// export interface ErrorResponse {
-//   error: string;
-// }
 
 export interface Area {
   placeId:string;

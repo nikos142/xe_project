@@ -3,7 +3,7 @@ import { object, string, number, enum as zEnum } from "zod";
 
 
 export const PropertySchema = object({
-  title: string().trim().max(155, "Title must be up to 155 characters ").nonempty("Title is required!"),
+  title: string().trim().max(155, "Title must be up to 155 characters").nonempty("Title is required!"),
   price: number().nonnegative("Price can't be negative number!"),
   placeId: string().nonempty("No area selected!"),
   area: string().nonempty(),

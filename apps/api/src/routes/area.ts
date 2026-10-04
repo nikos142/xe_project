@@ -19,13 +19,12 @@ router.get('/:input', async (req, res) => {
     return res.status(400).json({ error: 'Input can not contain special characters.' });
   }
 
-  const cache_key=`areas_${searchParam.toLowerCase()}`
-  const cached_data = await getCachedData(cache_key); //check for cached data
+  const cacheKey=`areas_${searchParam.toLowerCase()}`
+  const cachedData = await getCachedData(cacheKey); //check for cached data
 
-  if(cached_data)  return res.json({ places: cached_data })
+  if(cachedData)  return res.json({ places: cachedData })
 
   try {   
-    console.log("No match found in cache. Requesting Places API...")
     const response = await fetch(`${process.env.PLACES_API}${encodeURIComponent(searchParam)}`,{
     signal:AbortSignal.timeout(ABORT_REQUEST_TIME) //abort the request if not response in 5 seconds
     });
@@ -35,7 +34,7 @@ router.get('/:input', async (req, res) => {
     }
 
     const data = await response.json();
-    await setCachedData(cache_key, data);
+    await setCachedData(cacheKey, data);
     return res.json({ places: data });
 
   } catch (e) {

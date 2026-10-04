@@ -1,4 +1,3 @@
-// src/redis.ts
 import { createClient } from 'redis';
 const DEFAULT_EXP_TIME= 60 * 60 * 24; // 24h 
 
