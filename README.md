@@ -31,7 +31,7 @@ A full-stack web app for creating and managing real-estate ads. Its main feature
 
 - **New property ad form** with Title, Type, Area, Price and Extra description.
 - **Area autocomplete:**
-  - suggestions appear after **3 characters** and update as you type;
+  - suggestions appear after **3 characters** and update as you type (debounced: the search runs once typing pauses for 300ms);
   - choosing a suggestion fills the field with the text returned by the API;
   - the selected **`placeId` is submitted** with the form;
   - the field is **required**: typed text that wasn't chosen from the list is rejected.
@@ -297,7 +297,7 @@ Both sides use one schema, `PropertySchema` in `apps/shared/src/schemas.ts`:
 ### Area autocomplete
 
 1. The user types in the Area field (`features/AutocompleteInput.tsx`).
-2. Once the text has 3 or more characters, the frontend calls `GET /api/areas/:input`. The term is URL-encoded, and TanStack Query cancels requests that are no longer needed.
+2. Once the text has 3 or more characters and the user **pauses typing for 300ms** (`hooks/useDebouncedValue.ts`), the frontend calls `GET /api/areas/:input` once, with the full text. The dropdown shows "Loading…" during the pause. The term is trimmed and URL-encoded, and TanStack Query cancels requests that are no longer needed.
 3. The backend (`routes/area.ts`) checks the input, then looks in Redis under `areas_<lower-cased term>`.
 4. On a cache miss, it calls the places API with a 5-second timeout, stores the result for 24 hours, and returns `{ places }`.
 5. The dropdown shows loading, empty and result states. Choosing an option fills the field and stores `placeId` and `area` in the form state.
@@ -340,7 +340,7 @@ npm run test:watch -w api      # rerun on save (same for -w client)
 - areas: the 3-character and special-character rules, a successful lookup, an empty result, the cache, and upstream errors and timeouts (502).
 
 **Client (`apps/web/src/**/*.test.tsx`), Vitest + React Testing Library.** The tests render components in a simulated browser (jsdom) and act like a user, typing and clicking. `fetch` is replaced, so the real `request()` and API helpers run too. They cover:
-- the autocomplete: no search under 3 characters, suggestions appear, choosing one fills the field, error messages show;
+- the autocomplete: no search under 3 characters, fast typing sends a single debounced request, suggestions appear, choosing one fills the field, error messages show;
 - the form: it submits the selected **`placeId`**, and an area that was typed but not chosen is rejected;
 - the properties list: list, empty and error states, and editing an ad.
 
@@ -369,7 +369,6 @@ npm run lint -w client
 
 - **Editing the area.** Every field except the area can be edited from the list. Changing the area would need the autocomplete on the card too.
 - **Places API errors** all return a single 502. They could be split into "invalid search" (400), "rate limited" (503) and "timeout" (504).
-- **Autocomplete debounce.** A request is sent on every keystroke after the third character. Redis absorbs repeated terms, but a ~300ms debounce would reduce calls further.
 - **Validation error format.** `POST` and `PUT` return zod's issue list. A `{ error, fieldErrors }` shape would let the frontend show server-side errors under each field.
 - **Mobile layout.** The layout is fluid, but breakpoints for very small screens would improve it.
 - **Delete confirmation.** Deleting an ad happens immediately, with no "Are you sure?" step.

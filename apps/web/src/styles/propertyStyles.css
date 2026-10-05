@@ -16,10 +16,9 @@
 /* Two label + value pairs per row: all labels share one width, both value columns are equal */
 .propertyDetails{
     display: grid;
-    /* minmax(0, 1fr): equal columns that may shrink below an input's default width */
-    grid-template-columns: 6rem minmax(0, 1fr) 6rem minmax(0, 1fr);
+    grid-template-columns: 6rem minmax(0, 1fr) 4rem minmax(0, 1fr);
     align-items: center;
-    gap: 5px 10px;
+    gap: 5px 5px;
     margin-bottom: 10px;
 }
 

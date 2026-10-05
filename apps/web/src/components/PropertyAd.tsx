@@ -6,11 +6,17 @@ import { useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteProperty, updatePropertyAd } from "../api/properties";
 import { PropertySchema, type Property, type PropertyInput } from "@xe/shared";
+import FadeBanner from "./FadeBanner";
 
 const PROPERTY_TYPES = PropertySchema.shape.type.options;
 
 const PropertyAd = ({ item }: PropertyAdProps) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [banner, setBanner] = useState<{
+    message: string;
+    state: "success" | "fail";
+  } | null>(null);
+
   const queryClient = useQueryClient();
   const titleRef = useRef<HTMLInputElement>(null);
   const typeRef = useRef<HTMLSelectElement>(null);
@@ -38,10 +44,15 @@ const PropertyAd = ({ item }: PropertyAdProps) => {
   const { mutate: removeProperty, isPending: isDeleting } = useMutation({
     mutationFn: () => deleteProperty(item.id),
     onSuccess: refreshList,
+    onError: () =>
+      setBanner({
+        message: "Could not delete the property. Please try again.",
+        state: "fail",
+      }),
   });
 
   const handleSave = () => {
-    saveProperty({
+    const input = {
       title: titleRef.current?.value ?? item.title,
       type:
         (typeRef.current?.value as Property["type"] | undefined) ?? item.type,
@@ -51,7 +62,13 @@ const PropertyAd = ({ item }: PropertyAdProps) => {
       floor: floorRef.current?.valueAsNumber ?? item.floor,
       bathrooms: bathroomsRef.current?.valueAsNumber ?? item.bathrooms,
       extra_description: descriptionRef.current?.value ?? "",
-    });
+    };
+    const result = PropertySchema.safeParse(input);
+    if (!result.success) {
+      setBanner({ message: result.error.issues[0].message, state: "fail" }); // e.g. "Title is required!"
+      return;
+    }
+    saveProperty(input);
   };
 
   const handleCancel = () => {
@@ -180,6 +197,13 @@ const PropertyAd = ({ item }: PropertyAdProps) => {
         <span>{item.area}</span>
         <span>{dayjs(item.created_at).format("DD MMM YYYY")}</span>
       </div>
+      {banner && (
+        <FadeBanner
+          message={banner.message}
+          state={banner.state}
+          onClose={() => setBanner(null)}
+        />
+      )}
     </div>
   );
 };

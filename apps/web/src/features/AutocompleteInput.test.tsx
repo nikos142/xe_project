@@ -61,6 +61,18 @@ describe("AutocompleteInput", () => {
     expect(fetchMock.mock.calls[0][0]).toBe("/api/areas/naf");
   });
 
+  it("waits until typing stops and sends one request for the full text", async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ places }));
+    const user = userEvent.setup();
+    renderWithProviders(<Wrapper onSelect={vi.fn()} />);
+
+    await user.type(screen.getByLabelText("Area*"), "nafpli");
+
+    expect(await screen.findByText("Nafplio")).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledOnce();
+    expect(fetchMock.mock.calls[0][0]).toBe("/api/areas/nafpli");
+  });
+
   it("fills the field and returns the area when an option is clicked", async () => {
     fetchMock.mockResolvedValue(jsonResponse({ places }));
     const onSelect = vi.fn();

@@ -1,10 +1,14 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { type Area } from "@xe/shared";
 import { fetchAreas } from "../api/areas";
 import { useQuery } from "@tanstack/react-query";
 import FadeBanner from "../components/FadeBanner";
 import DropDownItem from "../components/DropDownItem";
 import InputContainer from "../components/InputContainer";
+import { useDebouncedValue } from "../hooks/useDebouncedValue";
+
+const MIN_SEARCH_LENGTH = 3;
+const SEARCH_DEBOUNCE_MS = 300; // wait for a pause in typing before calling the API
 
 const AutocompleteInput = ({
   onChange,
@@ -16,20 +20,25 @@ const AutocompleteInput = ({
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
 
+  const term = searchTerm.trim();
+  const debouncedTerm = useDebouncedValue(term, SEARCH_DEBOUNCE_MS);
+
   const {
     data,
     isFetching,
     isError,
     error: apiError,
   } = useQuery({
-    queryKey: ["places", searchTerm],
-    enabled: searchTerm.trim().length > 2,
+    queryKey: ["places", debouncedTerm],
+    enabled: debouncedTerm.length >= MIN_SEARCH_LENGTH,
     retry: false,
-    queryFn: ({ signal }) => fetchAreas({ searchTerm, signal }),
+    queryFn: ({ signal }) => fetchAreas({ searchTerm: debouncedTerm, signal }),
   });
 
   const places = data?.places ?? [];
-  const showDropdown = isOpen && searchTerm.trim().length >= 3;
+  const showDropdown = isOpen && term.length >= MIN_SEARCH_LENGTH;
+  // Still typing (debounce pending) or request in flight: show "Loadingâ€¦", not stale "No results"
+  const isLoading = term !== debouncedTerm || isFetching;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e);
@@ -44,7 +53,7 @@ const AutocompleteInput = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!showDropdown || places.length === 0) return;
+    if (!showDropdown || isLoading || places.length === 0) return;
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
@@ -81,8 +90,8 @@ const AutocompleteInput = ({
         {error && <span className="errorText">{errorText}</span>}
         {showDropdown && (
           <ul id="area-listbox" role="listbox" className="dropdown">
-            {isFetching ? (
-              <li className="dropdownStateItem">Loading…</li>
+            {isLoading ? (
+              <li className="dropdownStateItem">Loading</li>
             ) : places.length === 0 ? (
               <li className="dropdownStateItem">No results</li>
             ) : (
