@@ -1,26 +1,23 @@
-import { type Area } from "@xe/shared";
+import { flattenError } from "zod";
 import Input from "../components/Input";
 import * as routes from "../app/routes";
 import { useRef, useState } from "react";
-import { PropertySchema } from "@xe/shared";
 import NavLink from "../components/NavLink";
 import SelectBox from "../features/SelectBox";
 import TextArea from "../components/TextArea";
 import FadeBanner from "../components/FadeBanner";
 import { postPropertyAd } from "../api/properties";
 import { useMutation } from "@tanstack/react-query";
-import { flattenError, type infer as Infer } from "zod";
 import InputContainer from "../components/InputContainer";
 import AutocompleteInput from "../features/AutocompleteInput";
-
-type FieldErrors = Partial<Record<keyof PropertyForm, string[]>>;
-type PropertyForm = Infer<typeof PropertySchema>;
+import { type Area, type FieldErrors, PropertySchema } from "@xe/shared";
 
 const NewProperty = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
   const floorRef = useRef<HTMLInputElement>(null);
+  const typeRef = useRef<HTMLSelectElement>(null);
   const bathRoomRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const [formErrors, setFormErrors] = useState<FieldErrors>({});
@@ -29,13 +26,13 @@ const NewProperty = () => {
     state: "success" | "fail";
   } | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [type, setType] = useState("Rent");
   const [area, setArea] = useState("");
   const [placeId, setPlaceId] = useState("");
 
   const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const title = titleRef.current?.value;
+    const type = typeRef.current?.value;
     const price = priceRef.current?.valueAsNumber;
     const floor = floorRef.current?.valueAsNumber;
     const bathrooms = bathRoomRef.current?.valueAsNumber;
@@ -61,12 +58,8 @@ const NewProperty = () => {
     }
   };
 
-  const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setType(e.target.value);
-
   const handleSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
-    // Typing after a selection invalidates the chosen area
     setPlaceId("");
     setArea("");
   };
@@ -88,8 +81,7 @@ const NewProperty = () => {
   });
 
   const resetForm = () => {
-    formRef.current?.reset(); // clears title, price, description, floor, bathrooms
-    setType("Rent");
+    formRef.current?.reset();
     setSearchTerm("");
     setPlaceId("");
     setArea("");
@@ -114,12 +106,13 @@ const NewProperty = () => {
               errorText={formErrors.title?.[0]}
             />
           </InputContainer>
-          <SelectBox
-            onChange={handleTypeChange}
-            type={type}
-            error={!!formErrors.type}
-            errorText={formErrors.type?.[0]}
-          />
+          <InputContainer type="type" label="Type*">
+            <SelectBox
+              error={!!formErrors.type}
+              errorText={formErrors.type?.[0]}
+              ref={typeRef}
+            />
+          </InputContainer>
           <AutocompleteInput
             onChange={handleSearchTermChange}
             onSelect={handleAreaSelect}

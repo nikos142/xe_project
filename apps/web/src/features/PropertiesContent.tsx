@@ -1,9 +1,9 @@
 import Error from "../components/Error";
 import Loader from "../components/Loader";
+import type { Property } from "@xe/shared";
 import { useQuery } from "@tanstack/react-query";
 import { getProperties } from "../api/properties";
 import PropertyAd from "../components/PropertyAd";
-import type { Property } from "@xe/shared";
 
 const PropertiesContent = () => {
   const { data, isPending, isError } = useQuery({

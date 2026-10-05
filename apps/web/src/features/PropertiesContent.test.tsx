@@ -91,7 +91,6 @@ describe("PropertiesContent", () => {
       ([, init]) => init?.method === "PUT",
     );
     expect(putCall![0]).toBe("/api/properties/1");
-    // The edited title is sent, and the unchanged fields are sent back too
     expect(JSON.parse(putCall![1].body)).toMatchObject({
       title: "Renovated apartment",
       type: "Buy",

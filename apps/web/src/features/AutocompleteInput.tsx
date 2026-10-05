@@ -8,8 +8,7 @@ import InputContainer from "../components/InputContainer";
 import { useDebouncedValue } from "../hooks/useDebouncedValue";
 
 const MIN_SEARCH_LENGTH = 3;
-const SEARCH_DEBOUNCE_MS = 300; // wait for a pause in typing before calling the API
-
+const SEARCH_DEBOUNCE_MS = 300;
 const AutocompleteInput = ({
   onChange,
   onSelect,
@@ -37,7 +36,6 @@ const AutocompleteInput = ({
 
   const places = data?.places ?? [];
   const showDropdown = isOpen && term.length >= MIN_SEARCH_LENGTH;
-  // Still typing (debounce pending) or request in flight: show "Loadingâ€¦", not stale "No results"
   const isLoading = term !== debouncedTerm || isFetching;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

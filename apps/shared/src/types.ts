@@ -1,3 +1,6 @@
+import {  type infer as Infer } from "zod";
+import type { PropertySchema } from "./schemas";
+
 type propertyType="Rent"|"Buy"| "Exchange"| "Donation"
 
 export interface Property {
@@ -30,3 +33,6 @@ export interface Area {
   mainText:string;
   secondaryText:string
 }
+
+export type FieldErrors = Partial<Record<keyof PropertyForm, string[]>>;
+export type PropertyForm = Infer<typeof PropertySchema>;

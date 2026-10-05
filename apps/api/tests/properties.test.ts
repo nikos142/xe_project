@@ -1,7 +1,6 @@
 import request from 'supertest';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
-// In-memory replacement for Redis, shared between the mock and the tests
 const cache = vi.hoisted(() => new Map<string, unknown>());
 
 vi.mock('../src/redis.ts', () => ({
@@ -31,8 +30,8 @@ const changes = {
 
 
 beforeEach(() => {
-  db.exec('DELETE FROM properties');   // empty table
-  cache.clear();                        // empty fake Redis
+  db.exec('DELETE FROM properties'); 
+  cache.clear();                       
 });
 
 
@@ -87,10 +86,10 @@ describe('POST /api/properties', () => {
   ])('rejects an invalid %s with 400', async (field, override) => {
     const res = await request(app)
       .post('/api/properties')
-      .send({ ...validProperty, ...override });   // valid property with ONE bad field
+      .send({ ...validProperty, ...override }); 
 
     expect(res.status).toBe(400);
-    expect(res.body[0].path).toEqual([field]);     // zod says which field failed
+    expect(res.body[0].path).toEqual([field]);   
   });
 });
 
@@ -134,7 +133,6 @@ describe("PUT /api/properties/:id" , ()=>{
   });
 
 })
-
 
 describe("DELETE /api/properties/:id", ()=>{ 
   it("delete a property", async()=>{

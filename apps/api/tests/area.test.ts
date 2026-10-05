@@ -20,7 +20,6 @@ const places = [
 
 const fetchMock = vi.fn();
 
-// Builds a real Response object, like the one fetch returns
 function jsonResponse(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
@@ -30,17 +29,17 @@ function jsonResponse(body: unknown, status = 200) {
 
 beforeEach(() => {
   cache.clear();
-  fetchMock.mockReset();              // forget previous calls and responses
-  vi.stubGlobal('fetch', fetchMock);  // the route's fetch() is now our fake
+  fetchMock.mockReset();             
+  vi.stubGlobal('fetch', fetchMock);  
 });
 
 afterEach(() => {
-  vi.unstubAllGlobals();              // put the real fetch back
+  vi.unstubAllGlobals();              
 });
 
 describe('GET /api/areas/:input', () => {
   it('returns the places from the places API', async () => {
-    fetchMock.mockResolvedValue(jsonResponse(places));       // decide what the "API" answers
+    fetchMock.mockResolvedValue(jsonResponse(places));      
 
     const res = await request(app).get('/api/areas/nafpli');
 
@@ -69,7 +68,7 @@ describe('GET /api/areas/:input', () => {
     const res = await request(app).get('/api/areas/na');
 
     expect(res.status).toBe(400);
-    expect(fetchMock).not.toHaveBeenCalled();   // validation happens BEFORE the external call
+    expect(fetchMock).not.toHaveBeenCalled();  
   });
 
    it('returns [] when not input match found', async () => {
@@ -82,7 +81,6 @@ describe('GET /api/areas/:input', () => {
   });
 
   it('returns 502 when the places API times out', async () => {
-    // Simulate exactly what AbortSignal.timeout throws
     fetchMock.mockRejectedValue(new DOMException('The operation timed out.', 'TimeoutError'));
 
     const res = await request(app).get('/api/areas/nafpli');

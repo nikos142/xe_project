@@ -2,13 +2,12 @@ import dayjs from "dayjs";
 import Input from "./Input";
 import TextArea from "./TextArea";
 import "../styles/propertyStyles.css";
+import FadeBanner from "./FadeBanner";
 import { useRef, useState } from "react";
+import SelectBox from "../features/SelectBox";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteProperty, updatePropertyAd } from "../api/properties";
 import { PropertySchema, type Property, type PropertyInput } from "@xe/shared";
-import FadeBanner from "./FadeBanner";
-
-const PROPERTY_TYPES = PropertySchema.shape.type.options;
 
 const PropertyAd = ({ item }: PropertyAdProps) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -65,10 +64,10 @@ const PropertyAd = ({ item }: PropertyAdProps) => {
     };
     const result = PropertySchema.safeParse(input);
     if (!result.success) {
-      setBanner({ message: result.error.issues[0].message, state: "fail" }); // e.g. "Title is required!"
+      setBanner({ message: result.error.issues[0].message, state: "fail" });
       return;
     }
-    saveProperty(input);
+    saveProperty(result.data);
   };
 
   const handleCancel = () => {
@@ -143,21 +142,9 @@ const PropertyAd = ({ item }: PropertyAdProps) => {
         ) : (
           <b>{item.floor}</b>
         )}
-
         <span className="propertyLabel">Type:</span>
         {isEditing ? (
-          <select
-            ref={typeRef}
-            aria-label="Type"
-            className="input"
-            defaultValue={item.type}
-          >
-            {PROPERTY_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
+          <SelectBox error={false} ref={typeRef} defaultValue={item.type} />
         ) : (
           <b>{item.type}</b>
         )}

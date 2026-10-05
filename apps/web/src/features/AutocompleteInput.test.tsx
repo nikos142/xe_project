@@ -13,7 +13,6 @@ const places = [
 
 const fetchMock = vi.fn();
 
-// AutocompleteInput is controlled by its parent, so the test needs a parent that holds the text
 function Wrapper({ onSelect }: { onSelect: (area: Area) => void }) {
   const [term, setTerm] = useState("");
   return (
@@ -31,7 +30,7 @@ function Wrapper({ onSelect }: { onSelect: (area: Area) => void }) {
 
 beforeEach(() => {
   fetchMock.mockReset();
-  vi.stubGlobal("fetch", fetchMock); // same technique as the API tests
+  vi.stubGlobal("fetch", fetchMock);
 });
 
 afterEach(() => {

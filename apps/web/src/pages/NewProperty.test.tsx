@@ -17,7 +17,7 @@ beforeEach(() => {
     if (url === "/api/properties" && init?.method === "POST") {
       return jsonResponse({ id: 1, ...JSON.parse(init.body as string) }, 201);
     }
-    throw new Error(`Unexpected request: ${url}`); // catches calls you didn't expect
+    throw new Error(`Unexpected request: ${url}`);
   });
   vi.stubGlobal("fetch", fetchMock);
 });
