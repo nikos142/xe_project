@@ -140,10 +140,14 @@ npm install
 Copy the example environment file. The defaults work as they are:
 
 ```bash
+# macOS / Linux / Git Bash / Windows PowerShell
 cp apps/api/.env.example apps/api/.env
+
+# Windows Command Prompt (cmd)
+copy apps\api\.env.example apps\api\.env
 ```
 
-See [Configuration](#configuration) for what each variable does.
+You can also copy the file by hand and rename the copy to `.env`.
 
 ### 3a. Run it as one server (production-like)
 
