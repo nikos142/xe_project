@@ -13,7 +13,6 @@
     font-weight: 600;
 }
 
-/* Two label + value pairs per row: all labels share one width, both value columns are equal */
 .propertyDetails{
     display: grid;
     grid-template-columns: 6rem minmax(0, 1fr) 4rem minmax(0, 1fr);
@@ -27,7 +26,7 @@
 }
 
 .propertyDescription{
-     min-height: 60px; /* room for the textarea in edit mode, even on short windows */
+     min-height: 60px; 
      max-height: 12vh;
      overflow:auto;
 }

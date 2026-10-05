@@ -21,7 +21,6 @@ A full-stack web app for creating and managing real-estate ads. Its main feature
 - [Validation rules](#validation-rules)
 - [How it works](#how-it-works)
 - [Testing](#testing)
-- [Known limitations and future work](#known-limitations-and-future-work)
 
 ---
 
@@ -62,35 +61,35 @@ All packages are open source. Why each one is used:
 
 ### Backend (`apps/api`)
 
-| Package | Purpose |
-| --- | --- |
-| [express](https://expressjs.com/) v5 | HTTP server and routing. Version 5 forwards errors from `async` routes to the error handler automatically |
-| [redis](https://github.com/redis/node-redis) | Redis client for the response cache |
-| [zod](https://zod.dev/) v4 | Validates request bodies (shared with the frontend) |
-| [cors](https://github.com/expressjs/cors) | Allows the Vite dev server origin during development |
-| `node:sqlite` | SQLite database built into Node. Nothing extra to install and no native build step |
-| [typescript](https://www.typescriptlang.org/) | Type checking. Node runs `.ts` files directly through type stripping, so the API needs no build step |
-| [vitest](https://vitest.dev/) (dev) | Test runner |
-| [supertest](https://github.com/ladjs/supertest) (dev) | Sends HTTP requests to the Express app in tests without starting a server |
+| Package                                               | Purpose                                                                                                   |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [express](https://expressjs.com/) v5                  | HTTP server and routing. Version 5 forwards errors from `async` routes to the error handler automatically |
+| [redis](https://github.com/redis/node-redis)          | Redis client for the response cache                                                                       |
+| [zod](https://zod.dev/) v4                            | Validates request bodies (shared with the frontend)                                                       |
+| [cors](https://github.com/expressjs/cors)             | Allows the Vite dev server origin during development                                                      |
+| `node:sqlite`                                         | SQLite database built into Node. Nothing extra to install and no native build step                        |
+| [typescript](https://www.typescriptlang.org/)         | Type checking. Node runs `.ts` files directly through type stripping, so the API needs no build step      |
+| [vitest](https://vitest.dev/) (dev)                   | Test runner                                                                                               |
+| [supertest](https://github.com/ladjs/supertest) (dev) | Sends HTTP requests to the Express app in tests without starting a server                                 |
 
 ### Frontend (`apps/web`)
 
-| Package | Purpose |
-| --- | --- |
-| [react](https://react.dev/) v19 / react-dom | UI |
-| [vite](https://vite.dev/) | Dev server and production build; proxies `/api` to the backend in development |
-| [@tanstack/react-query](https://tanstack.com/query) | Fetching, caching, loading and error states (`useQuery` for reads, `useMutation` for create, update and delete) |
-| [react-router-dom](https://reactrouter.com/) v7 | Client-side routing |
-| [zod](https://zod.dev/) v4 | Form validation with per-field error messages (same schema as the server) |
-| [dayjs](https://day.js.org/) | Date formatting on the property cards |
-| eslint + typescript-eslint (dev) | Linting |
-| [vitest](https://vitest.dev/) + [jsdom](https://github.com/jsdom/jsdom) (dev) | Test runner, with a browser-like DOM inside Node |
-| [@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/), [user-event](https://testing-library.com/docs/user-event/intro), [jest-dom](https://github.com/testing-library/jest-dom) (dev) | Render components, simulate a user typing and clicking, and readable DOM checks |
+| Package                                                                                                                                                                                                                 | Purpose                                                                                                         |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| [react](https://react.dev/) v19 / react-dom                                                                                                                                                                             | UI                                                                                                              |
+| [vite](https://vite.dev/)                                                                                                                                                                                               | Dev server and production build; proxies `/api` to the backend in development                                   |
+| [@tanstack/react-query](https://tanstack.com/query)                                                                                                                                                                     | Fetching, caching, loading and error states (`useQuery` for reads, `useMutation` for create, update and delete) |
+| [react-router-dom](https://reactrouter.com/) v7                                                                                                                                                                         | Client-side routing                                                                                             |
+| [zod](https://zod.dev/) v4                                                                                                                                                                                              | Form validation with per-field error messages (same schema as the server)                                       |
+| [dayjs](https://day.js.org/)                                                                                                                                                                                            | Date formatting on the property cards                                                                           |
+| eslint + typescript-eslint (dev)                                                                                                                                                                                        | Linting                                                                                                         |
+| [vitest](https://vitest.dev/) + [jsdom](https://github.com/jsdom/jsdom) (dev)                                                                                                                                           | Test runner, with a browser-like DOM inside Node                                                                |
+| [@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/), [user-event](https://testing-library.com/docs/user-event/intro), [jest-dom](https://github.com/testing-library/jest-dom) (dev) | Render components, simulate a user typing and clicking, and readable DOM checks                                 |
 
 ### Shared (`apps/shared`, published inside the repo as `@xe/shared`)
 
-| Package | Purpose |
-| --- | --- |
+| Package                 | Purpose                                                     |
+| ----------------------- | ----------------------------------------------------------- |
 | [zod](https://zod.dev/) | `PropertySchema`, the single source of truth for validation |
 
 ---
@@ -114,11 +113,11 @@ xe_project/
 
 ## Prerequisites
 
-| Requirement | Version | Notes |
-| --- | --- | --- |
-| **Node.js** | **22.18 or newer** (tested on 25.7) | Needed for built-in TypeScript support and `node:sqlite` |
-| npm | 10+ | Comes with Node |
-| Redis | any recent version | **Optional.** Without it, caching is turned off and everything else works |
+| Requirement | Version                             | Notes                                                                     |
+| ----------- | ----------------------------------- | ------------------------------------------------------------------------- |
+| **Node.js** | **22.18 or newer** (tested on 25.7) | Needed for built-in TypeScript support and `node:sqlite`                  |
+| npm         | 10+                                 | Comes with Node                                                           |
+| Redis       | any recent version                  | **Optional.** Without it, caching is turned off and everything else works |
 
 The easiest way to start Redis is with Docker:
 
@@ -168,11 +167,11 @@ Open **http://localhost:5173**.
 
 ### Pages
 
-| URL | Page |
-| --- | --- |
-| `/` | Home: choose "Create new property ad" or "List of properties" |
-| `/properties/new` | New property ad form |
-| `/properties` | All saved ads, with edit and delete |
+| URL               | Page                                                          |
+| ----------------- | ------------------------------------------------------------- |
+| `/`               | Home: choose "Create new property ad" or "List of properties" |
+| `/properties/new` | New property ad form                                          |
+| `/properties`     | All saved ads, with edit and delete                           |
 
 ---
 
@@ -180,14 +179,14 @@ Open **http://localhost:5173**.
 
 Environment variables for the API, set in `apps/api/.env`:
 
-| Variable | Default | Description |
-| --- | --- | --- |
-| `PORT` | `3000` | API port. If you change it, update the proxy target in `apps/web/vite.config.ts` |
-| `PLACES_API` | — (**required**) | Base URL of the xe.gr autocomplete API, ending in `?input=` |
-| `REDIS_URL` | `redis://localhost:6379` | Redis connection string |
-| `DB_PATH` | `data/app.db` | SQLite file, resolved relative to the folder the API is started from (normally `apps/api`). `:memory:` uses a temporary in-memory database (used by the tests) |
-| `CORS_ORIGIN` | `http://localhost:5173` | Origin allowed by CORS (only matters in development) |
-| `WEB_DIST` | `../web/dist` | Folder of the built frontend that Express serves |
+| Variable      | Default                  | Description                                                                                                                                                    |
+| ------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PORT`        | `3000`                   | API port. If you change it, update the proxy target in `apps/web/vite.config.ts`                                                                               |
+| `PLACES_API`  | — (**required**)         | Base URL of the xe.gr autocomplete API, ending in `?input=`                                                                                                    |
+| `REDIS_URL`   | `redis://localhost:6379` | Redis connection string                                                                                                                                        |
+| `DB_PATH`     | `data/app.db`            | SQLite file, resolved relative to the folder the API is started from (normally `apps/api`). `:memory:` uses a temporary in-memory database (used by the tests) |
+| `CORS_ORIGIN` | `http://localhost:5173`  | Origin allowed by CORS (only matters in development)                                                                                                           |
+| `WEB_DIST`    | `../web/dist`            | Folder of the built frontend that Express serves                                                                                                               |
 
 The database file and its tables are created automatically on first start. Delete `apps/api/data/` while the server is stopped to reset all data.
 
@@ -205,12 +204,12 @@ Liveness check: `200 { "status": "ok" }`.
 
 Autocomplete for areas. Proxies the xe.gr places API, with caching.
 
-| | |
-| --- | --- |
+|         |                                                                                                             |
+| ------- | ----------------------------------------------------------------------------------------------------------- |
 | `input` | Search text (Greek or English), at least 3 characters. Letters, numbers, spaces and `- . , ' +` are allowed |
-| **200** | `{ "places": [{ "placeId": "…", "mainText": "Nafplio", "secondaryText": "Ελλάδα" }] }` |
-| **400** | Input too short or contains special characters |
-| **502** | The places API failed, timed out (5s) or couldn't be reached |
+| **200** | `{ "places": [{ "placeId": "…", "mainText": "Nafplio", "secondaryText": "Ελλάδα" }] }`                      |
+| **400** | Input too short or contains special characters                                                              |
+| **502** | The places API failed, timed out (5s) or couldn't be reached                                                |
 
 ```bash
 curl http://localhost:3000/api/areas/nafpli
@@ -237,20 +236,20 @@ Creates an ad. Example body:
 }
 ```
 
-| Status | Meaning |
-| --- | --- |
-| **201** | Created; returns the stored `Property` (including `id`, `created_at`, `updated_at`) |
+| Status  | Meaning                                                                                                               |
+| ------- | --------------------------------------------------------------------------------------------------------------------- |
+| **201** | Created; returns the stored `Property` (including `id`, `created_at`, `updated_at`)                                   |
 | **400** | Validation failed; the body is the list of zod issues (`[{ "path": ["title"], "message": "Title is required!" }, …]`) |
 
 ### `PUT /api/properties/:id`
 
 Updates an ad. The body is the **full** property, in the same format and with the same validation as `POST`.
 
-| Status | Meaning |
-| --- | --- |
+| Status  | Meaning                                                        |
+| ------- | -------------------------------------------------------------- |
 | **200** | Updated; returns the stored `Property` with a new `updated_at` |
-| **400** | Validation failed (same format as `POST`) |
-| **404** | No ad with this id |
+| **400** | Validation failed (same format as `POST`)                      |
+| **404** | No ad with this id                                             |
 
 ### `DELETE /api/properties/:id`
 
@@ -258,18 +257,18 @@ Deletes an ad: `204 No Content`, or `404` if it doesn't exist.
 
 ### `Property` object
 
-| Field | Type | Notes |
-| --- | --- | --- |
-| `id` | number | Auto-increment |
-| `title` | string | 1–155 characters |
-| `type` | `"Rent" \| "Buy" \| "Exchange" \| "Donation"` | |
-| `price` | number | ≥ 0, up to 2 decimals in the form |
-| `placeId` | string | From the places API |
-| `area` | string | Display text: `mainText, secondaryText` |
-| `floor` | integer | 0–6 |
-| `bathrooms` | integer | ≥ 1 |
-| `extra_description` | string \| null | Optional |
-| `created_at` / `updated_at` | string | UTC timestamps (`YYYY-MM-DD HH:MM:SS`) |
+| Field                       | Type                                          | Notes                                   |
+| --------------------------- | --------------------------------------------- | --------------------------------------- |
+| `id`                        | number                                        | Auto-increment                          |
+| `title`                     | string                                        | 1–155 characters                        |
+| `type`                      | `"Rent" \| "Buy" \| "Exchange" \| "Donation"` |                                         |
+| `price`                     | number                                        | ≥ 0, up to 2 decimals in the form       |
+| `placeId`                   | string                                        | From the places API                     |
+| `area`                      | string                                        | Display text: `mainText, secondaryText` |
+| `floor`                     | integer                                       | 0–6                                     |
+| `bathrooms`                 | integer                                       | ≥ 1                                     |
+| `extra_description`         | string \| null                                | Optional                                |
+| `created_at` / `updated_at` | string                                        | UTC timestamps (`YYYY-MM-DD HH:MM:SS`)  |
 
 ---
 
@@ -280,15 +279,15 @@ Both sides use one schema, `PropertySchema` in `apps/shared/src/schemas.ts`:
 - **The browser** validates before sending and shows each error under its field.
 - **The server** validates every request again, so it never relies on the client.
 
-| Field | Rule |
-| --- | --- |
-| Title | Required, trimmed, at most 155 characters |
-| Type | One of Rent, Buy, Exchange, Donation |
-| Area | Required. A suggestion must be **chosen from the list** (non-empty `placeId`). Editing the text afterwards clears the selection |
-| Price | Required number, ≥ 0 |
-| Floor | Required integer, 0–6 |
-| Bathrooms | Required integer, ≥ 1 |
-| Extra description | Optional |
+| Field             | Rule                                                                                                                            |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Title             | Required, trimmed, at most 155 characters                                                                                       |
+| Type              | One of Rent, Buy, Exchange, Donation                                                                                            |
+| Area              | Required. A suggestion must be **chosen from the list** (non-empty `placeId`). Editing the text afterwards clears the selection |
+| Price             | Required number, ≥ 0                                                                                                            |
+| Floor             | Required integer, 0–6                                                                                                           |
+| Bathrooms         | Required integer, ≥ 1                                                                                                           |
+| Extra description | Optional                                                                                                                        |
 
 ---
 
@@ -335,11 +334,13 @@ npm run test:watch -w api      # rerun on save (same for -w client)
 ```
 
 **API (`apps/api/tests`), Vitest + Supertest.** The tests send real HTTP requests to the Express app. They use an in-memory SQLite database and a fake Redis (a `Map`), and replace `fetch` so the places API is never called. They cover:
+
 - properties: create, list, update and delete, including validation (400) and missing ids (404);
 - cache clearing on create, update and delete;
 - areas: the 3-character and special-character rules, a successful lookup, an empty result, the cache, and upstream errors and timeouts (502).
 
-**Client (`apps/web/src/**/*.test.tsx`), Vitest + React Testing Library.** The tests render components in a simulated browser (jsdom) and act like a user, typing and clicking. `fetch` is replaced, so the real `request()` and API helpers run too. They cover:
+**Client (`apps/web/src/**/\*.test.tsx`), Vitest + React Testing Library.** The tests render components in a simulated browser (jsdom) and act like a user, typing and clicking. `fetch`is replaced, so the real`request()` and API helpers run too. They cover:
+
 - the autocomplete: no search under 3 characters, fast typing sends a single debounced request, suggestions appear, choosing one fills the field, error messages show;
 - the form: it submits the selected **`placeId`**, and an area that was typed but not chosen is rejected;
 - the properties list: list, empty and error states, and editing an ad.
@@ -364,11 +365,3 @@ npm run lint -w client
 - [ ] Stopping Redis: the app still works, without caching
 
 ---
-
-## Known limitations and future work
-
-- **Editing the area.** Every field except the area can be edited from the list. Changing the area would need the autocomplete on the card too.
-- **Places API errors** all return a single 502. They could be split into "invalid search" (400), "rate limited" (503) and "timeout" (504).
-- **Validation error format.** `POST` and `PUT` return zod's issue list. A `{ error, fieldErrors }` shape would let the frontend show server-side errors under each field.
-- **Mobile layout.** The layout is fluid, but breakpoints for very small screens would improve it.
-- **Delete confirmation.** Deleting an ad happens immediately, with no "Are you sure?" step.
