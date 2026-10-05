@@ -9,8 +9,8 @@ const router = Router();
 
 
 router.get('/', async (_req, res) => {
-  const cached_data = await getCachedData(ALL_PROPERTIES_CACHE_KEY);
-  if (cached_data) return res.json(cached_data);
+  const cachedData = await getCachedData(ALL_PROPERTIES_CACHE_KEY);
+  if (cachedData) return res.json(cachedData);
   
   const properties = listProperties.all() as unknown as Property[];
   await setCachedData(ALL_PROPERTIES_CACHE_KEY, properties);

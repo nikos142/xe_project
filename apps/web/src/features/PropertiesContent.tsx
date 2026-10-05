@@ -22,7 +22,7 @@ const PropertiesContent = () => {
       />
     );
 
-  if (data.length === 0) return <p>No property advertisments found!</p>;
+  if (data.length === 0) return <p>No property advertisements found!</p>;
 
   return data.map((item: Property) => <PropertyAd key={item.id} item={item} />);
 };

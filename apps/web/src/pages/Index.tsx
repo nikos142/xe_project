@@ -12,7 +12,7 @@ const Index = () => {
       <NavChoice
         text="Create new property ad"
         link={routes.NEW_PROPERTY}
-        description={"Create and publish a new property advertisment."}
+        description={"Create and publish a new property advertisement."}
       />
       <NavChoice
         text="List of properties"

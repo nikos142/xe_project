@@ -8,15 +8,27 @@
     background: white;
 }
 
-
 .propertyTitle{
     font-size: 1.2rem;
     font-weight: 600;
-    width:75%
 }
 
+/* Two label + value pairs per row: all labels share one width, both value columns are equal */
+.propertyDetails{
+    display: grid;
+    /* minmax(0, 1fr): equal columns that may shrink below an input's default width */
+    grid-template-columns: 6rem minmax(0, 1fr) 6rem minmax(0, 1fr);
+    align-items: center;
+    gap: 5px 10px;
+    margin-bottom: 10px;
+}
+
+.propertyLabel{
+    white-space: nowrap;
+}
 
 .propertyDescription{
-     height: 12vh; 
-     overflow:auto; 
+     min-height: 60px; /* room for the textarea in edit mode, even on short windows */
+     max-height: 12vh;
+     overflow:auto;
 }

@@ -29,7 +29,7 @@ const NewProperty = () => {
     state: "success" | "fail";
   } | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [type, setType] = useState("Buy");
+  const [type, setType] = useState("Rent");
   const [area, setArea] = useState("");
   const [placeId, setPlaceId] = useState("");
 
@@ -80,7 +80,7 @@ const NewProperty = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: postPropertyAd,
     onSuccess: () => {
-      setBanner({ message: "Property advertisment saved!", state: "success" });
+      setBanner({ message: "Property advertisement saved!", state: "success" });
       resetForm();
     },
     onError: () =>
@@ -89,12 +89,13 @@ const NewProperty = () => {
 
   const resetForm = () => {
     formRef.current?.reset(); // clears title, price, description, floor, bathrooms
-    setType("Buy");
+    setType("Rent");
     setSearchTerm("");
     setPlaceId("");
     setArea("");
     setFormErrors({});
   };
+
   return (
     <div className="centeredColumn">
       <div style={{ textAlign: "center" }}>

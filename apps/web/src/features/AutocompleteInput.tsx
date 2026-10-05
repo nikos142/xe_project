@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { type Area } from "@xe/shared";
 import { fetchAreas } from "../api/areas";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import FadeBanner from "../components/FadeBanner";
 import DropDownItem from "../components/DropDownItem";
