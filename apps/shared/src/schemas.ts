@@ -11,6 +11,6 @@ export const PropertySchema = object({
     error: "Type is required!",
   }),
   extra_description: string("Description must be a text."),
-  floor:number().int("Floor must be an integer number.").nonnegative("Floor can't be negative number!").max(6, "Floor must be a number between 0 and 6."),
-  bathrooms:number().int("Bathrooms must be a number.").min(1, 'Bathrooms must be greater or equal to 1.'),
+  floor:number('Floor number is required.').int("Floor must be an integer number.").nonnegative("Floor can't be negative number!").max(6, "Floor must be a number between 0 and 6."),
+  bathrooms:number('Bathrooms number is required.').int("Bathrooms must be an integer number.").min(1, 'Bathrooms must be greater or equal to 1.'),
 });
